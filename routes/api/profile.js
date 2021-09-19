@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check } = require('express-validator');
 const checkObjectId = require('../../middleware/checkObjectId');
-const { getProfile, createOrUpdateProfile, getAllProfiles, getProfileByUserId, deleteProfileByUserId, addExperience, deleteExperience, addEducation, deleteEducation } = require('../../controllers/ProfileController.js');
+const { getProfile, createOrUpdateProfile, getAllProfiles, getProfileByUserId, deleteProfileByUserId, addExperience, deleteExperience, addEducation, deleteEducation, getGithubRepos } = require('../../controllers/ProfileController.js');
 
 const validators = [
     check('status', 'Status is required').notEmpty(),
@@ -71,5 +71,10 @@ router.put('/education', [auth, educationValidators], addEducation);
 // @desc     Delete profile education
 // @access   Private
 router.delete('/education/:edu_id', [auth, checkObjectId('edu_id')], deleteEducation);
+
+// @route    GET api/profile/github/:username
+// @desc     Get user repos from Github
+// @access   Public
+router.get('/github/:username', getGithubRepos);
 
 module.exports = router;
