@@ -22,26 +22,7 @@ const Register = () => {
         if (password !== password2 ) {
             alert('Passwords do not match');
         } else {
-            const newUser = {
-                name,
-                email,
-                password,
-            };
-
-            try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                };
-
-                const body = JSON.stringify(newUser);
-
-                const res = await axios.post('/api/users', body, config);
-                console.log(res.data);
-            } catch (err) {
-                console.error(err.response.data);
-            }
+            alert('User registered');
         }
     }
 

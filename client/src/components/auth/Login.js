@@ -1,8 +1,28 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 
 const Login = () => {
+
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        password2: '',
+    });
+
+    const { name, email, password, password2 } = formData;
+
+    const onChangeHandler = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+
+    const formSubmitHandler = async (e) => {
+        e.preventDefault();
+        alert('User signed in');
+    }
+
     return (
 
         <Fragment>
@@ -19,7 +39,7 @@ const Login = () => {
             <p className="lead"><i className="fas fa-user"></i> Sign into Your Account</p>
 
             {/* Input Form */}
-            <form className="form" action="dashboard.html">
+            <form className="form" onSubmit={formSubmitHandler}>
 
                 {/* Email Address */}
                 <div className="form-group">
@@ -28,6 +48,7 @@ const Login = () => {
                         placeholder="Email Address"
                         name="email"
                         required
+                        onChange={onChangeHandler}
                     />
                 </div>
 
@@ -37,6 +58,7 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         name="password"
+                        onChange={onChangeHandler}
                     />
                 </div>
 
