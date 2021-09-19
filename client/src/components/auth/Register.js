@@ -1,7 +1,26 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        password2: '',
+    });
+
+    const { name, email, password, password2 } = formData;
+
+    const onChangeHandler = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+
+    const formSubmitHandler = (e) => {
+        e.preventDefault();
+        console.log(formData);
+    }
+
     return (
 
         <Fragment>
@@ -13,16 +32,16 @@ const Register = () => {
             <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
 
             {/* Input Form */}
-            <form className="form" action="create-profile.html">
+            <form className="form" onSubmit={formSubmitHandler}>
 
                 {/* Name */}
                 <div className="form-group">
-                    <input type="text" placeholder="Name" name="name" required />
+                    <input type="text" placeholder="Name" name="name" required value={name} onChange={onChangeHandler} />
                 </div>
 
                 {/* Email */}
                 <div className="form-group">
-                    <input type="email" placeholder="Email Address" name="email" />
+                    <input type="email" placeholder="Email Address" name="email" value={email} onChange={onChangeHandler} />
                     <small className="form-text">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
                 </div>
 
@@ -33,6 +52,8 @@ const Register = () => {
                         placeholder="Password"
                         name="password"
                         minLength="6"
+                        value={password}
+                        onChange={onChangeHandler}
                     />
                 </div>
 
@@ -43,6 +64,8 @@ const Register = () => {
                         placeholder="Confirm Password"
                         name="password2"
                         minLength="6"
+                        value={password2}
+                        onChange={onChangeHandler}
                     />
                 </div>
 
