@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 // const normalize = require('normalize-url');
 const { check, validationResult } = require('express-validator');
+const checkObjectId = require('../../middleware/checkObjectId');
 
 const Profile = require('../../models/Profile');
 
@@ -56,7 +57,7 @@ const createOrUpdateProfile = async (req, res) => {
         ...rest
     } = req.body;
 
-    // Create profile object
+    // Create profile object (the user id is embedded in the auth token)
     const profileFields = {
         user: req.user.id,
         website: website && website !== '' ? website : '',
@@ -92,5 +93,38 @@ const createOrUpdateProfile = async (req, res) => {
 }
 
 router.post('/', auth, validators, createOrUpdateProfile);
+
+// @route    GET api/profile
+// @desc     Get all profiles
+// @access   Public
+
+const getAllProfiles = async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+        res.json(profiles);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+router.get('/', getAllProfiles);
+
+// @route    GET api/profile/user/:user_id
+// @desc     Get profile by user ID
+// @access   Public
+
+const getProfileByUserId = async (req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
+        if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+        return res.json(profile);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+router.get('/user/:user_id', checkObjectId('user_id'), getProfileByUserId);
 
 module.exports = router;
