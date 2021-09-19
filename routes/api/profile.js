@@ -6,6 +6,8 @@ const { check, validationResult } = require('express-validator');
 const checkObjectId = require('../../middleware/checkObjectId');
 
 const Profile = require('../../models/Profile');
+const User = require('../../models/User');
+const Post = require('../../models/Post');
 
 // @route   GET api/profile/me
 // @desc    Get current users profile
@@ -126,5 +128,30 @@ const getProfileByUserId = async (req, res) => {
 }
 
 router.get('/user/:user_id', checkObjectId('user_id'), getProfileByUserId);
+
+// @route    DELETE api/profile/user/:user_id
+// @desc     Delete profile, user & posts
+// @access   Private
+
+const deleteProfileByUserId = async (req, res) => {
+    const user = await User.findOne({ _id: req.params.user_id });
+    if (!user) return res.status(400).json({ msg: 'User not found' });
+    try {
+        // Remove user posts
+        // Remove profile
+        // Remove user
+        await Promise.all([
+            Post.deleteMany({ user: req.user.id }),
+            Profile.findOneAndRemove({ user: req.user.id }),
+            user.delete(),
+        ]);
+        return res.json({ msg: 'User deleted successfully' });
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+router.delete('/user/:user_id', auth, checkObjectId('user_id'), deleteProfileByUserId);
 
 module.exports = router;
