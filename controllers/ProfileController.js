@@ -144,16 +144,19 @@ exports.addExperience = async (req, res) => {
     };
 
     try {
-      const profile = await Profile.findOne({ user: req.user.id });
+        const user = await User.findOne({ _id: req.user.id });
+        if (!user) return res.status(400).json({ msg: 'User not found' });
 
-      profile.experience.unshift(newExp);
+        const profile = await Profile.findOne({ user: req.user.id });
 
-      await profile.save();
+        profile.experience.unshift(newExp);
 
-      res.json(profile);
+        await profile.save();
+
+        res.json(profile);
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
+        console.error(err.message);
+        res.status(500).send('Server Error');
     }
 
 }
