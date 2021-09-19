@@ -6,13 +6,11 @@ const Login = () => {
 
 
     const [formData, setFormData] = useState({
-        name: '',
         email: '',
         password: '',
-        password2: '',
     });
 
-    const { name, email, password, password2 } = formData;
+    const { email, password } = formData;
 
     const onChangeHandler = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,6 +18,7 @@ const Login = () => {
 
     const formSubmitHandler = async (e) => {
         e.preventDefault();
+        console.log(formData);
         alert('User signed in');
     }
 
@@ -49,6 +48,7 @@ const Login = () => {
                         name="email"
                         required
                         onChange={onChangeHandler}
+                        value={email}
                     />
                 </div>
 
@@ -59,6 +59,7 @@ const Login = () => {
                         placeholder="Password"
                         name="password"
                         onChange={onChangeHandler}
+                        value={password}
                     />
                 </div>
 
