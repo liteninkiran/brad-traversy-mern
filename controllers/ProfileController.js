@@ -109,7 +109,7 @@ exports.deleteProfileByUserId = async (req, res) => {
             Profile.findOneAndRemove({ user: req.user.id }),
             user.delete(),
         ]);
-        return res.json({ msg: 'User deleted successfully' });
+        return res.status(200).json({ msg: 'User deleted successfully' });
     } catch (err) {
         console.error(err.message);
         return res.status(500).json({ msg: 'Server error' });
@@ -149,6 +149,7 @@ exports.addExperience = async (req, res) => {
 
         const profile = await Profile.findOne({ user: req.user.id });
 
+        // Unshift is like push, but is pushes on to the beginning of the array
         profile.experience.unshift(newExp);
 
         await profile.save();
@@ -157,6 +158,26 @@ exports.addExperience = async (req, res) => {
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
+    }
+
+}
+
+exports.deleteExperience = async (req, res) => {
+
+    try {
+        const foundProfile = await Profile.findOne({ user: req.user.id });
+
+        if (!foundProfile) return res.status(400).json({ msg: 'Profile not found' });
+
+        foundProfile.experience = foundProfile.experience.filter((exp) => {
+            exp._id.toString() !== req.params.exp_id
+        });
+
+        await foundProfile.save();
+        return res.status(200).json(foundProfile);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: 'Server error' });
     }
 
 }

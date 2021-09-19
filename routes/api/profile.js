@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check } = require('express-validator');
 const checkObjectId = require('../../middleware/checkObjectId');
-const { getProfile, createOrUpdateProfile, getAllProfiles, getProfileByUserId, deleteProfileByUserId, addExperience } = require('../../controllers/ProfileController.js');
+const { getProfile, createOrUpdateProfile, getAllProfiles, getProfileByUserId, deleteProfileByUserId, addExperience, deleteExperience } = require('../../controllers/ProfileController.js');
 
 const validators = [
     check('status', 'Status is required').notEmpty(),
@@ -46,5 +46,10 @@ router.delete('/user/:user_id', auth, checkObjectId('user_id'), deleteProfileByU
 // @desc     Add profile experience
 // @access   Private
 router.put('/experience', [auth, experienceValidators], addExperience);
+
+// @route    DELETE api/profile/experience/:exp_id
+// @desc     Delete profile experience
+// @access   Private
+router.delete('/experience/:exp_id', auth, checkObjectId('exp_id'), deleteExperience);
 
 module.exports = router;
