@@ -4,7 +4,7 @@ const auth = require('../../middleware/auth');
 const checkObjectId = require('../../middleware/checkObjectId');
 const { check } = require('express-validator');
 
-const { addPost, getPosts, getPostById, deletePostById } = require('../../controllers/PostController.js');
+const { addPost, getPosts, getPostById, deletePostById, likePost, unlikePost } = require('../../controllers/PostController.js');
 
 const addPostValidators = [
     check('text', 'Text is required').notEmpty(),
@@ -30,6 +30,14 @@ router.get('/:id', [auth, checkObjectId('id')], getPostById);
 // @access   Private
 router.delete('/:id', [auth, checkObjectId('id')], deletePostById);
 
+// @route    PUT api/posts/like/:id
+// @desc     Like a post
+// @access   Private
+router.put('/like/:id', auth, checkObjectId('id'), likePost);
 
+// @route    PUT api/posts/unlike/:id
+// @desc     Unlike a post
+// @access   Private
+router.put('/unlike/:id', auth, checkObjectId('id'), unlikePost);
 
 module.exports = router;
