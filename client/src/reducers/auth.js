@@ -13,7 +13,7 @@ const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
-    user: null
+    user: null,
 };
 
 function authReducer(state = initialState, action) {
@@ -25,7 +25,7 @@ function authReducer(state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
-                user: payload
+                user: payload,
             };
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
@@ -33,7 +33,7 @@ function authReducer(state = initialState, action) {
                 ...state,
                 ...payload,
                 isAuthenticated: true,
-                loading: false
+                loading: false,
             };
         case REGISTER_FAIL:
         case LOGIN_FAIL:
@@ -45,7 +45,7 @@ function authReducer(state = initialState, action) {
                 token: null,
                 isAuthenticated: false,
                 loading: false,
-                user: null
+                user: null,
             };
         default:
             return state;
