@@ -8,6 +8,8 @@ import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
 import ProfileForm from './components/profile-forms/ProfileForm';
+import AddExperience from './components/profile-forms/AddExperience';
+import AddEducation from './components/profile-forms/AddEducation';
 import { LOGOUT } from './actions/types';
 
 // Redux
@@ -46,6 +48,8 @@ function App() {
                             <Route exact path="/login" component={Login} />
                             <PrivateRoute exact path="/create-profile" component={ProfileForm} />
                             <PrivateRoute exact path="/edit-profile" component={ProfileForm} />
+                            <PrivateRoute exact path="/add-experience" component={AddExperience} />
+                            <PrivateRoute exact path="/add-education" component={AddEducation} />
                             <PrivateRoute exact path="/dashboard" component={Dashboard} />
                         </Switch>
                     </section>
