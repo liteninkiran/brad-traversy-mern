@@ -21,7 +21,6 @@ function authReducer(state = initialState, action) {
 
     switch (type) {
         case USER_LOADED:
-            // localStorage.setItem('token', payload.token);
             return {
                 ...state,
                 isAuthenticated: true,
@@ -41,7 +40,6 @@ function authReducer(state = initialState, action) {
         case ACCOUNT_DELETED:
         case AUTH_ERROR:
         case LOGOUT:
-            // localStorage.removeItem('token');
             return {
                 ...state,
                 token: null,

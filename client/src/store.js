@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
-// import setAuthToken from './utils/setAuthToken';
+import setAuthToken from './utils/setAuthToken';
 
 const initialState = {};
 
@@ -17,7 +17,7 @@ const store = createStore(
 // Set up a store subscription listener to store the users token in localStorage
 
 // Initialize current state from redux store for subscription comparison preventing undefined error
-/*
+
 let currentState = store.getState();
 
 store.subscribe(() => {
@@ -32,5 +32,5 @@ store.subscribe(() => {
         setAuthToken(token);
     }
 });
-*/
+
 export default store;
